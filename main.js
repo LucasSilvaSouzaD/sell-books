@@ -24,8 +24,9 @@ const oneBook = 10.00;
 // filtrar e calcular critério de venda
 const calcCritery = async (qtdBooks, arrayCritery) => {
     const criteryFilter = await arrayCritery.filter(item => qtdBooks >= item.qtdMinimum && qtdBooks <= item.qtdMaximum);
-    return criteryFilter ? criteryFilter[0].prcBook * qtdBooks + criteryFilter[0].prcFixed : parseInt(qtdBooks) > 10 ? qtdBooks * offerAboveTen : oneBook;  
-     
+    return criteryFilter ? criteryFilter[0].prcBook * qtdBooks + criteryFilter[0].prcFixed 
+    : parseInt(qtdBooks) > 10 ? qtdBooks * offerAboveTen 
+    : oneBook;  
 }
 
 ;
@@ -35,9 +36,8 @@ const calcCritery = async (qtdBooks, arrayCritery) => {
         const result = await calcCritery(qtdBooks, critery);
         console.log(`R$ ${result}`)
     } catch (error) {
-        
+        console.log(error);
     } finally {
-        
         terminal.close()
     }
     
