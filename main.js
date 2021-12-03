@@ -17,28 +17,39 @@ const critery = [
     { 'prcBook': 0.65, 'prcFixed': 1.50 },
 ]
 
-// filtrar e calcular critério de venda
-const calcCritery = async (qtdBooks, arrayCritery) => {
+function totalArray(array) {
+    return array.map((item) => item.total)
+}
+
+function hasDuplicate(array) {
+    return array.filter((e, i, a) => a.indexOf(e) !== i)
+}
+
+
+const criteryCalculator = async (qtdBooks, arrayCritery) => {
     const totalCriterys = arrayCritery.map(critery => Object.assign(critery, { total: (critery.prcBook * qtdBooks) + critery.prcFixed }))
-    console.log(totalCriterys)
+    
+    // separar o retorno dos calculos em matriz
+    const criteryTotals = await totalArray(totalCriterys);
 
-    const totals = totalCriterys.map((critery) => critery.total)
-    const removeNumberRep = [... new Set(totals)]
+    // retornar o duplicado caso tenha
+    const hasRepeatCritery = await hasDuplicate(criteryTotals);
 
-    let difference = removeNumberRep.filter(x => !totals.includes(x));
-    console.log(difference)
-        // const criteryFilter = await arrayCritery.filter(item => qtdBooks >= item.qtdMinimum && qtdBooks <= item.qtdMaximum);
-    // return criteryFilter ? criteryFilter[0].prcBook * qtdBooks + criteryFilter[0].prcFixed
-    //     : parseInt(qtdBooks) > 10 ? qtdBooks * offerAboveTen
-    //         : oneBook;
+    // máximo do retorno
+    const maxMatriz = await Math.max.apply(null, criteryTotals );
+
+    // caso tenha o valor repetido retorna ele, se não retorna o máximo dos critério
+    const criteryFix = hasRepeatCritery.length > 0 ? hasRepeatCritery[0] : maxMatriz
+
+    return console.log(`final: ${criteryFix}`)
 }
 
     ;
 (async function main() {
     try {
         const qtdBooks = await questionAsync('Digite a quantidade de livros que deseja comprar:');
-        const result = await calcCritery(qtdBooks, critery);
-        console.log(result)
+        return await criteryCalculator(qtdBooks, critery);
+        // console.log(result)
     } catch (error) {
         console.log(error);
     } finally {
