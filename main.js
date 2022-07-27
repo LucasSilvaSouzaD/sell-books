@@ -36,7 +36,7 @@ const criteryCalculator = async (qtdBooks, arrayCritery) => {
     return console.log(`final: ${criteryFix}`)
 }
 
-    ;
+;
 (async function main() {
     try {
         const qtdBooks = await questionAsync('Digite a quantidade de livros que deseja comprar:');
